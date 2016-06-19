@@ -1,6 +1,6 @@
 {
   "name": "socket.io-as-promised",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "Socket.IO middleware for supporting returning promises from handlers",
   "main": "lib/index.js",
   "scripts": {
