@@ -92,6 +92,12 @@ Requires Node 6 to run:
 npm test
 ```
 
+You can customize the port under which the test server runs (by default 8090):
+
+```js
+TEST_PORT=4444 npm test
+```
+
 ## License
 
 See the [LICENSE](LICENSE.md) file for license rights and limitations (MIT).
