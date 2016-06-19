@@ -111,4 +111,65 @@ describe('socket.io-as-promised', () => {
     return expect(client.emitAsync('test')).to.eventually.be.rejected
       .and.deep.equal({ error: 'was rejected with thrown object from coroutine' });
   });
+
+  it('should call handle error with the right args', done => {
+    setupTest(() => Promise.reject(new Error('serialized error')), {
+      handleError(err, event) {
+        expect(err).to.deep.equal(new Error('serialized error'));
+        expect(event).to.equal('test');
+
+        done();
+      },
+    });
+
+    client.emitAsync('test');
+  });
+
+  it('should serialize thrown error from async function', () => {
+    setupTest(async () => {
+      throw new Error('serialized error');
+    }, {
+      handleError(err) {
+        return Promise.reject({ name: err.name, message: err.message });
+      },
+    });
+
+    return expect(client.emitAsync('test')).to.eventually.be.rejected
+      .and.deep.equal({ name: 'Error', message: 'serialized error' });
+  });
+
+  it('should serialize thrown error from bluebird coroutine', () => {
+    setupTest(co(function* () {
+      throw new Error('serialized error');
+    }), {
+      handleError(err) {
+        return Promise.reject({ name: err.name, message: err.message });
+      },
+    });
+
+    return expect(client.emitAsync('test')).to.eventually.be.rejected
+      .and.deep.equal({ name: 'Error', message: 'serialized error' });
+  });
+
+  it('should catch error returned as bluebird rejected promise from handleError', () => {
+    setupTest(() => Promise.reject(new Error('serialized error')), {
+      handleError(err) {
+        return Bluebird.reject({ name: err.name, message: err.message });
+      },
+    });
+
+    return expect(client.emitAsync('test')).to.eventually.be.rejected
+      .and.deep.equal({ name: 'Error', message: 'serialized error' });
+  });
+
+  it('should catch error thrown from handleError', () => {
+    setupTest(() => Promise.reject(new Error('serialized error')), {
+      handleError(err) {
+        throw { name: err.name, message: err.message }; // eslint-disable-line no-throw-literal
+      },
+    });
+
+    return expect(client.emitAsync('test')).to.eventually.be.rejected
+      .and.deep.equal({ name: 'Error', message: 'serialized error' });
+  });
 });

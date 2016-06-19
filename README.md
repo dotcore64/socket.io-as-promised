@@ -12,6 +12,8 @@
 
 Allows you to more easily respond to your user's events by employing promises instead of callbacks. Also supports async functions and [bluebird](https://github.com/petkaantonov/bluebird) coroutines. Supports Node >= 0.10.
 
+It also helps with error handling, which is important since Socket.IO does not serialize `Error` objects.
+
 ## Install
 
 ```
@@ -56,6 +58,7 @@ io.on('connection', socket => {
   }));
 
   // Error objects get turned into '{}' objects by socket io, so they need serializing
+  // use the handleError option documented in the API to handle this case
   socket.on('throws error exception', () => Promise.reject(new Error('thrown exception')));
 });
 ```
@@ -78,11 +81,38 @@ client.emit('throws error exception', err => console.log(err)); // {}
 
 ## API
 
-### socketAsPromised()
+### socketAsPromised({ handleError } = {})
 
 Type: `function`
 
 Returns Socket.IO middleware. Monkeypatches `socket.on` to wrap the handler function and support returned promises
+
+#### handleError(err, event)
+
+Type: `function`, default: `null`
+
+Optional argument, helps in case you want to ignore certain errors, or serialize other errors.
+
+```js
+io.use(socketAsPromised({
+  handleError(err, event) {
+    return Promise.reject({ name: err.name, message: err.message });
+
+    // or:
+    throw { name: err.name, message: err.message };
+
+    // more fancy usage, filter out certain errors, return a
+    // generic error instead useful in case of errors like database
+    // connectivity that you don't want to reach the end user
+    const genericError = { name: 'GenericError', message: 'Something went wrong' };
+
+    if (isKnownError(err.name)) {
+      return Promise.reject({ name: err.name, message: err.message });
+    }
+    return Promise.reject(genericError);
+  }
+}))
+```
 
 ## Tests
 
