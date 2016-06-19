@@ -1,70 +1,21 @@
-import Bluebird, { coroutine as co } from 'bluebird';
-import Server from 'socket.io';
+import Bluebird from 'bluebird';
 import chai, { expect } from 'chai';
 import io from 'socket.io-client';
 
-import socketAsPromised from '../src';
+import { startServer, stopServer } from './server.js';
 
 const testPort = process.env.TEST_PORT || 8090;
-const ioServer = new Server();
 
 Bluebird.promisifyAll(io);
 
 chai.use(require('chai-as-promised'));
 chai.use(require('dirty-chai'));
 
-ioServer.use(socketAsPromised());
-ioServer.on('connection', socket => {
-  socket.on('non promise', () => 'foo');
-
-  socket.on('normal promise', () => (
-    Promise.resolve('normal promise resolved')
-  ));
-
-  socket.on('bluebird promise', () => (
-    Bluebird.resolve('bluebird promise resolved')
-  ));
-
-  socket.on('async function', async () => (
-    'async function resolved'
-  ));
-
-  socket.on('bluebird coroutine', co(function* () {
-    return 'bluebird coroutine resolved';
-  }));
-
-  socket.on('rejection error', () => (
-    Promise.reject(new Error('was rejected with error'))
-  ));
-
-  socket.on('rejection object', () => (
-    Promise.reject({ error: 'was rejected with object' })
-  ));
-
-  socket.on('throw error async', async function () {
-    throw new Error('was rejected with thrown error from async function');
-  });
-
-  socket.on('throw error coroutine', co(function* () {
-    throw new Error('was rejected with thrown error from coroutine');
-  }));
-
-  socket.on('throw object async', async function () {
-    // eslint-disable-next-line no-throw-literal
-    throw { error: 'was rejected with thrown object from async function' };
-  });
-
-  socket.on('throw object coroutine', co(function* () {
-    // eslint-disable-next-line no-throw-literal
-    throw { error: 'was rejected with thrown object from coroutine' };
-  }));
-});
-
 describe('socket.io-as-promised', () => {
   let client;
 
   before(() => {
-    ioServer.attach(testPort);
+    startServer(testPort);
   });
 
   beforeEach(() => {
@@ -77,7 +28,7 @@ describe('socket.io-as-promised', () => {
   });
 
   after(() => {
-    ioServer.close();
+    stopServer();
   });
 
   it('should not resolve non promises', async () => {
