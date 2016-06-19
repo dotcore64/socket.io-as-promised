@@ -1,8 +1,8 @@
-import Bluebird from 'bluebird';
+import Bluebird, { coroutine as co } from 'bluebird';
 import chai, { expect } from 'chai';
 import io from 'socket.io-client';
 
-import { startServer, stopServer } from './server.js';
+import { startServer, stopServer, setupServer } from './server.js';
 
 const testPort = process.env.TEST_PORT || 8090;
 
@@ -14,73 +14,101 @@ chai.use(require('dirty-chai'));
 describe('socket.io-as-promised', () => {
   let client;
 
-  before(() => {
-    startServer(testPort);
-  });
+  function setupTest(...args) {
+    setupServer.call(null, ...args);
 
-  beforeEach(() => {
     client = io.connect(`http://0.0.0.0:${testPort}`);
     return new Promise(resolve => client.on('connect', resolve));
+  }
+
+  beforeEach(() => {
+    startServer(testPort);
   });
 
   afterEach(() => {
     client.disconnect();
-  });
-
-  after(() => {
     stopServer();
   });
 
   it('should not resolve non promises', async () => {
-    const res = client.emitAsync('non promise');
+    setupTest(() => 'foo');
+
+    const res = client.emitAsync('test');
     expect(res.isPending()).to.be.true();
     await Bluebird.delay(100);
     return expect(res.isPending()).to.be.true();
   });
 
-  it('should respond when returning a promise', () =>
-    expect(client.emitAsync('normal promise')).to.become('normal promise resolved')
-  );
+  it('should respond when returning a promise', () => {
+    setupTest(() => Promise.resolve('normal promise resolved'));
+    return expect(client.emitAsync('test')).to.become('normal promise resolved');
+  });
 
-  it('should respond when returning a bluebird promise', () =>
-    expect(client.emitAsync('bluebird promise')).to.become('bluebird promise resolved')
-  );
+  it('should respond when returning a bluebird promise', () => {
+    setupTest(() => Bluebird.resolve('bluebird promise resolved'));
+    return expect(client.emitAsync('test')).to.become('bluebird promise resolved');
+  });
 
-  it('should respond when using async functions', () =>
-    expect(client.emitAsync('async function')).to.become('async function resolved')
-  );
+  it('should respond when using async functions', () => {
+    setupTest(async () => 'async function resolved');
+    return expect(client.emitAsync('test')).to.become('async function resolved');
+  });
 
-  it('should respond when using a bluebird coroutine', () =>
-    expect(client.emitAsync('bluebird coroutine')).to.become('bluebird coroutine resolved')
-  );
+  it('should respond when using a bluebird coroutine', () => {
+    setupTest(co(function* () {
+      return 'bluebird coroutine resolved';
+    }));
 
-  it('should respond with error upon rejected with error', () =>
-    expect(client.emitAsync('rejection error')).to.eventually.be.rejected
-      .and.deep.equal({})
-  );
+    return expect(client.emitAsync('test')).to.become('bluebird coroutine resolved');
+  });
 
-  it('should respond with error upon rejected with object', () =>
-    expect(client.emitAsync('rejection object')).to.eventually.be.rejected
-      .and.deep.equal({ error: 'was rejected with object' })
-  );
+  it('should respond with error upon rejected with error', () => {
+    setupTest(() => Promise.reject(new Error('was rejected with error')));
+    return expect(client.emitAsync('test')).to.eventually.be.rejected
+      .and.deep.equal({});
+  });
 
-  it('should respond with error upon thrown error from async function', () =>
-    expect(client.emitAsync('throw error async')).to.eventually.be.rejected
-      .and.deep.equal({})
-  );
+  it('should respond with error upon rejected with object', () => {
+    setupTest(() => Promise.reject({ error: 'was rejected with object' }));
+    return expect(client.emitAsync('test')).to.eventually.be.rejected
+      .and.deep.equal({ error: 'was rejected with object' });
+  });
 
-  it('should respond with error upon thrown error from coroutine', () =>
-    expect(client.emitAsync('throw error coroutine')).to.eventually.be.rejected
-      .and.deep.equal({})
-  );
+  it('should respond with error upon thrown error from async function', () => {
+    setupTest(async function () {
+      throw new Error('was rejected with thrown error from async function');
+    });
 
-  it('should respond with error upon thrown object from async function', () =>
-    expect(client.emitAsync('throw object async')).to.eventually.be.rejected
-      .and.deep.equal({ error: 'was rejected with thrown object from async function' })
-  );
+    return expect(client.emitAsync('test')).to.eventually.be.rejected
+      .and.deep.equal({});
+  });
 
-  it('should respond with error upon thrown object from coroutine', () =>
-    expect(client.emitAsync('throw object coroutine')).to.eventually.be.rejected
-      .and.deep.equal({ error: 'was rejected with thrown object from coroutine' })
-  );
+  it('should respond with error upon thrown error from coroutine', () => {
+    setupTest(co(function* () {
+      throw new Error('was rejected with thrown error from coroutine');
+    }));
+
+    return expect(client.emitAsync('test')).to.eventually.be.rejected
+      .and.deep.equal({});
+  });
+
+  it('should respond with error upon thrown object from async function', () => {
+    setupTest(async function () {
+      // eslint-disable-next-line no-throw-literal
+      throw { error: 'was rejected with thrown object from async function' };
+    });
+
+    return expect(client.emitAsync('test')).to.eventually.be.rejected
+      .and.deep.equal({ error: 'was rejected with thrown object from async function' });
+  });
+
+  it('should respond with error upon thrown object from coroutine', () => {
+    setupTest(co(function* () {
+      // eslint-disable-next-line no-throw-literal
+      throw { error: 'was rejected with thrown object from coroutine' };
+    }));
+
+    return expect(client.emitAsync('test')).to.eventually.be.rejected
+      .and.deep.equal({ error: 'was rejected with thrown object from coroutine' });
+  });
 });
