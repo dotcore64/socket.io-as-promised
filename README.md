@@ -31,7 +31,7 @@ const co = Promise.coroutine;
 io.attach(5000);
 
 // on the main '/' namespare
-io.use(socketAsPromised);
+io.use(socketAsPromised());
 
 // on a custom namespace
 io.of('/foo').use(socketAsPromised);
