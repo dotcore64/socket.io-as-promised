@@ -42,7 +42,7 @@
     "coveralls": "^2.11.9",
     "dirty-chai": "^1.2.2",
     "eslint": "^3.0.1",
-    "eslint-config-airbnb-base": "^4.0.0",
+    "eslint-config-airbnb-base": "^11.0.0",
     "eslint-plugin-import": "^1.10.2",
     "gulp": "^3.9.1",
     "gulp-babel": "^6.1.2",
