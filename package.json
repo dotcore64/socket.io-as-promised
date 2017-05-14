@@ -50,7 +50,7 @@
     "gulp-mocha": "^2.2.0",
     "gulp-util": "^3.0.7",
     "istanbul": "^1.1.0-alpha.1",
-    "mocha": "^2.5.3",
+    "mocha": "^3.4.1",
     "socket.io": "^1.4.8",
     "socket.io-client": "^1.4.8"
   },
