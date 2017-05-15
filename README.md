@@ -1,5 +1,7 @@
 # socket.io-as-promised
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/perrin4869/socket.io-as-promised.svg)](https://greenkeeper.io/)
+
 [![Travis][build-badge]][build]
 [![npm package][npm-badge]][npm]
 [![Coverage Status][coveralls-badge]][coveralls]
