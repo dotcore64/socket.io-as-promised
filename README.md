@@ -10,7 +10,7 @@
 
 ## Introduction
 
-Allows you to more easily respond to your user's events by employing promises instead of callbacks. Also supports async functions and [bluebird](https://github.com/petkaantonov/bluebird) coroutines. Supports Node >= 0.10.
+Allows you to more easily respond to your user's events by employing promises instead of callbacks. Supports Node >= 16.
 
 It also helps with error handling, which is important since Socket.IO does not serialize `Error` objects.
 
@@ -26,9 +26,6 @@ $ npm install --save socket.io-as-promised
 // server.js
 const io = require('socket.io')();
 const socketAsPromised = require('socket.io-as-promised');
-const Promise = require('bluebird'); // also works with built-in promises
-
-const co = Promise.coroutine;
 
 io.attach(5000);
 
@@ -45,17 +42,9 @@ io.on('connection', socket => {
   // Client will get a response with the string 'returned from async function'
   socket.on('returns from async', async () => 'returned from async function');
 
-  // Client will get a response with the string 'returned from bluebird coroutine'
-  socket.on('returns from coroutine', co(function* () {
-    return 'returned from bluebird coroutine';
-  }));
-
   // Handles errors
   socket.on('throws exception', () => Promise.reject({ error: 'thrown exception' }));
   socket.on('throws from async', async () => { throw { error: 'thrown exception'; } });
-  socket.on('throws from coroutine', co(function* () {
-    throw { error: 'thrown exception' };
-  }));
 
   // Error objects get turned into '{}' objects by socket io, so they need serializing
   // use the handleError option documented in the API to handle this case
@@ -70,11 +59,9 @@ const client = io.connect('http://0.0.0.0:5000');
 
 client.emit('returns promise', (err, res) => console.log(res)); // 'returned a promise'
 client.emit('returns from async', (err, res) => console.log(res)); // 'returned from async'
-client.emit('returns from coroutine', (err, res) => console.log(res)); // 'returned from bluebird coroutine'
 
 client.emit('throws exception', err => console.log(err)); // { error: 'thrown exception' }
 client.emit('throws from async', err => console.log(err)); // { error: 'thrown exception' }
-client.emit('throws from coroutine', err => console.log(err)); // { error: 'thrown exception' }
 
 client.emit('throws error exception', err => console.log(err)); // {}
 ```
@@ -116,8 +103,6 @@ io.use(socketAsPromised({
 
 ## Tests
 
-Requires Node 6 to run:
-
 ```js
 npm test
 ```
@@ -132,17 +117,17 @@ TEST_PORT=4444 npm test
 
 See the [LICENSE](LICENSE.md) file for license rights and limitations (MIT).
 
-[build-badge]: https://img.shields.io/travis/perrin4869/socket.io-as-promised/master.svg?style=flat-square
-[build]: https://travis-ci.org/perrin4869/socket.io-as-promised
+[build-badge]: https://img.shields.io/github/workflow/status/dotcore64/socket.io-as-promised/test/master?style=flat-square
+[build]: https://github.com/dotcore64/socket.io-as-promised/actions
 
 [npm-badge]: https://img.shields.io/npm/v/socket.io-as-promised.svg?style=flat-square
 [npm]: https://www.npmjs.org/package/socket.io-as-promised
 
-[coveralls-badge]: https://img.shields.io/coveralls/perrin4869/socket.io-as-promised/master.svg?style=flat-square
-[coveralls]: https://coveralls.io/r/perrin4869/socket.io-as-promised
+[coveralls-badge]: https://img.shields.io/coveralls/dotcore64/socket.io-as-promised/master.svg?style=flat-square
+[coveralls]: https://coveralls.io/r/dotcore64/socket.io-as-promised
 
-[dependency-status-badge]: https://david-dm.org/perrin4869/socket.io-as-promised.svg?style=flat-square
-[dependency-status]: https://david-dm.org/perrin4869/socket.io-as-promised
+[dependency-status-badge]: https://david-dm.org/dotcore64/socket.io-as-promised.svg?style=flat-square
+[dependency-status]: https://david-dm.org/dotcore64/socket.io-as-promised
 
-[dev-dependency-status-badge]: https://david-dm.org/perrin4869/socket.io-as-promised/dev-status.svg?style=flat-square
-[dev-dependency-status]: https://david-dm.org/perrin4869/socket.io-as-promised#info=devDependencies
+[dev-dependency-status-badge]: https://david-dm.org/dotcore64/socket.io-as-promised/dev-status.svg?style=flat-square
+[dev-dependency-status]: https://david-dm.org/dotcore64/socket.io-as-promised#info=devDependencies

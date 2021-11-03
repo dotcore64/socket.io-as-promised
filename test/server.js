@@ -1,5 +1,8 @@
-import Server from 'socket.io';
-import socketAsPromised from '../src';
+import { Server } from 'socket.io';
+
+// https://github.com/import-js/eslint-plugin-import/issues/1649
+// eslint-disable-next-line import/no-unresolved,node/no-missing-import
+import socketAsPromised from 'socket.io-as-promised';
 
 let io;
 
@@ -12,10 +15,10 @@ export function stopServer() {
   io.close();
 }
 
-export function setupServer(handler, options = undefined) {
+export function setupServer(handler, options) {
   io.use(socketAsPromised(options));
 
-  io.on('connection', socket => {
+  io.on('connection', (socket) => {
     socket.on('test', handler);
   });
 }
