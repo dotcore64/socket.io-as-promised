@@ -132,17 +132,17 @@ TEST_PORT=4444 npm test
 
 See the [LICENSE](LICENSE.md) file for license rights and limitations (MIT).
 
-[build-badge]: https://img.shields.io/travis/perrin4869/socket.io-as-promised/master.svg?style=flat-square
-[build]: https://travis-ci.org/perrin4869/socket.io-as-promised
+[build-badge]: https://img.shields.io/github/workflow/status/dotcore64/socket.io-as-promised/test/master?style=flat-square
+[build]: https://github.com/dotcore64/socket.io-as-promised/actions
 
 [npm-badge]: https://img.shields.io/npm/v/socket.io-as-promised.svg?style=flat-square
 [npm]: https://www.npmjs.org/package/socket.io-as-promised
 
-[coveralls-badge]: https://img.shields.io/coveralls/perrin4869/socket.io-as-promised/master.svg?style=flat-square
-[coveralls]: https://coveralls.io/r/perrin4869/socket.io-as-promised
+[coveralls-badge]: https://img.shields.io/coveralls/dotcore64/socket.io-as-promised/master.svg?style=flat-square
+[coveralls]: https://coveralls.io/r/dotcore64/socket.io-as-promised
 
-[dependency-status-badge]: https://david-dm.org/perrin4869/socket.io-as-promised.svg?style=flat-square
-[dependency-status]: https://david-dm.org/perrin4869/socket.io-as-promised
+[dependency-status-badge]: https://david-dm.org/dotcore64/socket.io-as-promised.svg?style=flat-square
+[dependency-status]: https://david-dm.org/dotcore64/socket.io-as-promised
 
-[dev-dependency-status-badge]: https://david-dm.org/perrin4869/socket.io-as-promised/dev-status.svg?style=flat-square
-[dev-dependency-status]: https://david-dm.org/perrin4869/socket.io-as-promised#info=devDependencies
+[dev-dependency-status-badge]: https://david-dm.org/dotcore64/socket.io-as-promised/dev-status.svg?style=flat-square
+[dev-dependency-status]: https://david-dm.org/dotcore64/socket.io-as-promised#info=devDependencies

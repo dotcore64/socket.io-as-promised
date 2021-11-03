@@ -1,32 +1,21 @@
-const isPromise = require('is-promise');
-const asCallback = require('ascallback');
+import asCallback from 'ascallback';
 
-function socketAsPromised({ handleError } = {}) {
-  return (socket, next) => {
-    const on = socket.on;
-    socket.on = (event, handler, ...args) => {
-      const newHandler = (...handlerArgs) => {
-        const cb = handlerArgs[handlerArgs.length - 1];
-        let res = handler.apply(null, handlerArgs);
+const defaultHandleError = (val) => Promise.reject(val);
 
-        if (isPromise(res)) {
-          if (typeof handleError === 'function') {
-            res = res.catch(err => handleError(err, event));
-          }
+export default ({ handleError = defaultHandleError } = {}) => (socket, next) => {
+  const on = socket.on.bind(socket);
+  socket.on = (event, handler, ...args) => { // eslint-disable-line no-param-reassign
+    const newHandler = (...handlerArgs) => {
+      const cb = handlerArgs.pop();
+      const res = handler(...handlerArgs)?.catch?.((err) => handleError(err, event));
 
-          if (typeof res.asCallback === 'function') {
-            res.asCallback(cb);
-          } else {
-            asCallback(res, cb);
-          }
-        }
-      };
-
-      on.call(socket, event, newHandler, ...args);
+      if (typeof res?.then === 'function') {
+        asCallback(res, cb);
+      }
     };
 
-    next();
+    on(event, newHandler, ...args);
   };
-}
 
-module.exports = socketAsPromised;
+  next();
+};
