@@ -10,7 +10,7 @@
 
 ## Introduction
 
-Allows you to more easily respond to your user's events by employing promises instead of callbacks. Also supports async functions and [bluebird](https://github.com/petkaantonov/bluebird) coroutines. Supports Node >= 16.
+Allows you to more easily respond to your user's events by employing promises instead of callbacks. Supports Node >= 16.
 
 It also helps with error handling, which is important since Socket.IO does not serialize `Error` objects.
 
