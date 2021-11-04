@@ -1,3 +1,4 @@
+import { createRequire } from 'module';
 import { setTimeout } from 'timers/promises';
 import { expect } from 'chai';
 import io from 'socket.io-client';
@@ -93,5 +94,10 @@ describe('socket.io-as-promised', () => {
 
     return expect(client.emitAsync('test')).to.eventually.be.rejected
       .and.deep.equal({ name: 'Error', message: 'serialized error' });
+  });
+
+  it('should require cjs module', () => {
+    const require = createRequire(import.meta.url);
+    expect(require('..')).to.be.a('function');
   });
 });
