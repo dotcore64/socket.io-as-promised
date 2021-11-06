@@ -6,7 +6,7 @@ export default ({ handleError = defaultHandleError } = {}) => (socket, next) => 
   const on = socket.on.bind(socket);
   socket.on = (event, handler, ...args) => { // eslint-disable-line no-param-reassign
     const newHandler = (...handlerArgs) => {
-      const cb = handlerArgs.pop();
+      const cb = handlerArgs.at(-1);
       const res = handler(...handlerArgs)?.catch?.((err) => handleError(err, event));
 
       if (typeof res?.then === 'function') {
