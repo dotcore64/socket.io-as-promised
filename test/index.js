@@ -2,6 +2,7 @@ import { createRequire } from 'module';
 import { setTimeout } from 'timers/promises';
 import { expect } from 'chai';
 import io from 'socket.io-client';
+import { pEvent as fromEvent } from 'p-event';
 
 // https://github.com/import-js/eslint-plugin-import/issues/2104
 import { startServer, stopServer, setupServer } from './server.js'; // eslint-disable-line import/extensions
@@ -15,7 +16,7 @@ describe('socket.io-as-promised', () => {
     setupServer(...args);
 
     client = io(`http://0.0.0.0:${TEST_PORT}`);
-    return new Promise((resolve) => client.on('connect', resolve));
+    return fromEvent(client, 'connect');
   }
 
   beforeEach(() => {
