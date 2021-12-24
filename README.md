@@ -44,7 +44,7 @@ io.on('connection', socket => {
 
   // Handles errors
   socket.on('throws exception', () => Promise.reject({ error: 'thrown exception' }));
-  socket.on('throws from async', async () => { throw { error: 'thrown exception'; } });
+  socket.on('throws from async', async () => { throw { error: 'thrown exception' }; });
 
   // Error objects get turned into '{}' objects by socket io, so they need serializing
   // use the handleError option documented in the API to handle this case
