@@ -43,7 +43,7 @@
   "homepage": "https://github.com/dotcore64/socket.io-as-promised#readme",
   "devDependencies": {
     "c8": "^7.11.0",
-    "chai": "^4.3.4",
+    "chai": "^4.3.5",
     "chai-as-promised": "^7.1.1",
     "dirty-chai": "^2.0.1",
     "eslint": "^8.7.0",
