@@ -56,8 +56,5 @@
     "rollup": "^2.70.2",
     "socket.io": "^4.5.0",
     "socket.io-client": "^4.5.0"
-  },
-  "dependencies": {
-    "ascallback": "^1.1.1"
   }
 }
