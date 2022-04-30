@@ -3,26 +3,21 @@
   "version": "2.0.1",
   "description": "Socket.IO middleware for supporting returning promises from handlers",
   "type": "module",
-  "main": "dist/index.cjs",
+  "main": "/index.js",
   "exports": {
-    ".": {
-      "import": "./dist/index.js",
-      "require": "./dist/index.cjs"
-    },
+    ".": "./index.js",
     "./package.json": "./package.json"
   },
   "scripts": {
     "lint": "eslint --cache .",
-    "build": "rollup -c",
     "test": "mocha",
-    "cover": "c8 npm test",
-    "prepare": "npm run build"
+    "cover": "c8 npm test"
   },
   "engines": {
     "node": ">=16.0.0"
   },
   "files": [
-    "dist"
+    "index.js"
   ],
   "repository": {
     "type": "git",
@@ -53,7 +48,6 @@
     "eslint-plugin-node": "^11.1.0",
     "mocha": "^9.2.2",
     "p-event": "^5.0.1",
-    "rollup": "^2.70.2",
     "socket.io": "^4.5.0",
     "socket.io-client": "^4.5.0"
   }

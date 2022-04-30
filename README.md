@@ -24,16 +24,16 @@ $ npm install --save socket.io-as-promised
 
 ```js
 // server.js
-const io = require('socket.io')();
-const socketAsPromised = require('socket.io-as-promised');
+import { Server } from 'socket.io';
+import asPromised from 'socket.io-as-promised';
 
-io.attach(5000);
+const io = new Server(5000);
 
 // on the main '/' namespare
 io.use(socketAsPromised());
 
 // on a custom namespace
-io.of('/foo').use(socketAsPromised);
+io.of('/foo').use(socketAsPromised());
 
 io.on('connection', socket => {
   // Client will get a response with the string 'returned a promise'

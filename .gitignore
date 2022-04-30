@@ -9,5 +9,3 @@ node_modules
 npm-debug.log
 
 .eslintcache
-
-dist/
