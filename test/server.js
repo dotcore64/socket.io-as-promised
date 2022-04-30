@@ -20,5 +20,6 @@ export function setupServer(handler, options) {
 
   io.on('connection', (socket) => {
     socket.on('test', handler);
+    socket.on('disconnect', () => Promise.resolve()); // Test that it handles events without callback
   });
 }
