@@ -1,21 +1,25 @@
 {
-  "extends": ["airbnb-base", "plugin:node/recommended"],
-  "plugins": ["node"],
+  "extends": ["airbnb-base", "plugin:n/recommended", "plugin:unicorn/recommended"],
+  "plugins": ["n", "unicorn"],
   "parserOptions": {
     "ecmaVersion": "latest",
     "sourceType": "module"
   },
+  "rules": {
+    "unicorn/prevent-abbreviations": 0,
+    "unicorn/catch-error-name": ["error", { "name": "e" }]
+  },
   "overrides": [
-        {
-            "files": ["test/*.js"],
-            "extends": ["plugin:mocha/recommended"],
-            "plugins": ["mocha"],
-            "env": {
-                "mocha": true
-            },
-            "rules": {
-              "mocha/no-mocha-arrows": 0
-            }
-        }
-    ]
+    {
+      "files": ["test/*.js"],
+      "extends": ["plugin:mocha/recommended"],
+      "plugins": ["mocha"],
+      "env": {
+        "mocha": true
+      },
+      "rules": {
+        "mocha/no-mocha-arrows": 0
+      }
+    }
+  ]
 }

@@ -1,4 +1,4 @@
-import { setTimeout } from 'timers/promises';
+import { setTimeout } from 'node:timers/promises';
 import { expect } from 'chai';
 import io from 'socket.io-client';
 import { pEvent as fromEvent } from 'p-event';

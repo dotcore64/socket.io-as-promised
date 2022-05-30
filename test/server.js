@@ -1,7 +1,7 @@
 import { Server } from 'socket.io';
 
 // https://github.com/import-js/eslint-plugin-import/issues/1649
-// eslint-disable-next-line import/no-unresolved,node/no-missing-import
+// eslint-disable-next-line import/no-unresolved,n/no-extraneous-import
 import socketAsPromised from 'socket.io-as-promised';
 
 let io;

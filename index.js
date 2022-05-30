@@ -8,7 +8,7 @@ export default ({ handleError = Promise.reject.bind(Promise) } = {}) => (socket,
       if (typeof result?.then === 'function') {
         const cb = handlerArgs.at(-1);
         if (typeof cb === 'function') {
-          result.then(cb.bind(null, null), cb);
+          result.then(cb.bind(undefined, undefined), cb);
         }
       }
     };
