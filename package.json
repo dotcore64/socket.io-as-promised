@@ -3,7 +3,6 @@
   "version": "3.0.1",
   "description": "Socket.IO middleware for supporting returning promises from handlers",
   "type": "module",
-  "main": "/index.js",
   "exports": {
     ".": "./index.js",
     "./package.json": "./package.json"
