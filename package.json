@@ -49,7 +49,7 @@
     "eslint-plugin-unicorn": "^44.0.0",
     "mocha": "^10.1.0",
     "p-event": "^5.0.1",
-    "socket.io": "^4.5.2",
+    "socket.io": "^4.5.3",
     "socket.io-client": "^4.5.3"
   }
 }
