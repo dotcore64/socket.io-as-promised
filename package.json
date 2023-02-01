@@ -1,6 +1,6 @@
 {
   "name": "socket.io-as-promised",
-  "version": "3.0.1",
+  "version": "3.0.2",
   "description": "Socket.IO middleware for supporting returning promises from handlers",
   "type": "module",
   "exports": {
