@@ -48,7 +48,7 @@
     "eslint-plugin-n": "^16.6.2",
     "eslint-plugin-unicorn": "^51.0.1",
     "mocha": "^10.3.0",
-    "p-event": "^6.0.0",
+    "p-event": "^6.0.1",
     "socket.io": "^4.7.5",
     "socket.io-client": "^4.7.5"
   }
