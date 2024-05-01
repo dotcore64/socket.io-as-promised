@@ -1,5 +1,10 @@
 {
-  "extends": ["airbnb-base", "plugin:n/recommended", "plugin:unicorn/recommended", "plugin:eslint-comments/recommended"],
+  "extends": [
+    "airbnb-base",
+    "plugin:n/recommended",
+    "plugin:unicorn/recommended",
+    "plugin:eslint-comments/recommended"
+  ],
   "plugins": ["n", "unicorn", "eslint-comments"],
   "parserOptions": {
     "ecmaVersion": "latest",
@@ -7,6 +12,7 @@
   },
   "rules": {
     "unicorn/prevent-abbreviations": 0,
+    "unicorn/no-anonymous-default-export": 0,
     "unicorn/catch-error-name": ["error", { "name": "e" }],
     "eslint-comments/no-unused-disable": "error"
   },
