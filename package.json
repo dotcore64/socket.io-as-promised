@@ -13,7 +13,7 @@
     "cover": "c8 npm test"
   },
   "engines": {
-    "node": ">=16.0.0"
+    "node": ">=18.0.0"
   },
   "files": [
     "index.js"
