@@ -36,7 +36,7 @@
   },
   "homepage": "https://github.com/dotcore64/socket.io-as-promised#readme",
   "devDependencies": {
-    "@eslint-community/eslint-plugin-eslint-comments": "^4.4.0",
+    "@eslint-community/eslint-plugin-eslint-comments": "^4.4.1",
     "c8": "^10.1.2",
     "chai": "^4.5.0",
     "chai-as-promised": "^8.0.0",
