@@ -11,10 +11,10 @@ updates:
       assignees:
           - perrin4869
       groups:
-          typescript-eslint:
+          socket.io:
               patterns:
-                  - "socket.io"
-                  - "socket.io-client"
+                  - socket.io
+                  - socket.io-client
     - package-ecosystem: github-actions
       directory: /
       schedule:
