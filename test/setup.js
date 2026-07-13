@@ -1,6 +1,12 @@
 import { promisify } from "node:util";
+import { describe, it, beforeEach, afterEach } from "node:test";
 import { use } from "chai";
 import { Socket } from "socket.io-client";
+
+globalThis.describe = describe;
+globalThis.it = it;
+globalThis.beforeEach = beforeEach;
+globalThis.afterEach = afterEach;
 
 Socket.prototype.emitAsync = promisify(Socket.prototype.emit);
 
