@@ -1,20 +1,22 @@
-export default ({ handleError = Promise.reject.bind(Promise) } = {}) => (socket, next) => {
-  const on = socket.on.bind(socket);
-  socket.on = (event, handler, ...args) => {  
-    const newHandler = (...handlerArgs) => {
-      const result = handler(...handlerArgs)
-        ?.catch?.((err) => handleError(err, event));
+export default ({ handleError = Promise.reject.bind(Promise) } = {}) =>
+  (socket, next) => {
+    const on = socket.on.bind(socket);
+    socket.on = (event, handler, ...args) => {
+      const newHandler = (...handlerArgs) => {
+        const result = handler(...handlerArgs)?.catch?.((err) =>
+          handleError(err, event),
+        );
 
-      if (typeof result?.then === 'function') {
-        const cb = handlerArgs.at(-1);
-        if (typeof cb === 'function') {
-          result.then(cb.bind(undefined, undefined), cb);
+        if (typeof result?.then === "function") {
+          const cb = handlerArgs.at(-1);
+          if (typeof cb === "function") {
+            result.then(cb.bind(undefined, undefined), cb);
+          }
         }
-      }
+      };
+
+      on(event, newHandler, ...args);
     };
 
-    on(event, newHandler, ...args);
+    next();
   };
-
-  next();
-};
