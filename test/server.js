@@ -1,8 +1,8 @@
-import { Server } from 'socket.io';
+import { Server } from "socket.io";
 
 // https://github.com/import-js/eslint-plugin-import/issues/1649
 // eslint-disable-next-line import/no-unresolved
-import socketAsPromised from 'socket.io-as-promised';
+import socketAsPromised from "socket.io-as-promised";
 
 let io;
 
@@ -18,8 +18,8 @@ export function stopServer() {
 export function setupServer(handler, options) {
   io.use(socketAsPromised(options));
 
-  io.on('connection', (socket) => {
-    socket.on('test', handler);
-    socket.on('disconnect', () => Promise.resolve()); // Test that it handles events without callback
+  io.on("connection", (socket) => {
+    socket.on("test", handler);
+    socket.on("disconnect", () => Promise.resolve()); // Test that it handles events without callback
   });
 }
