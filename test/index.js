@@ -1,10 +1,10 @@
 import { setTimeout } from 'node:timers/promises';
 import { expect } from 'chai';
-import io from 'socket.io-client';
+import io from 'socket.io-client'; // eslint-disable-line import/no-named-as-default
 import { pEvent as fromEvent } from 'p-event';
 
 // https://github.com/import-js/eslint-plugin-import/issues/2104
-import { startServer, stopServer, setupServer } from './server.js'; // eslint-disable-line import/extensions
+import { startServer, stopServer, setupServer } from './server.js';  
 
 const TEST_PORT = process.env.TEST_PORT || 8090;
 
@@ -50,7 +50,7 @@ describe('socket.io-as-promised', () => {
   });
 
   it('should respond with error upon rejected with object', () => {
-    setupTest(() => Promise.reject({ error: 'was rejected with object' })); // eslint-disable-line prefer-promise-reject-errors
+    setupTest(() => Promise.reject({ error: 'was rejected with object' }));  
     return expect(client.emitAsync('test')).to.eventually.be.rejected
       .and.deep.equal({ error: 'was rejected with object' });
   });
@@ -76,7 +76,7 @@ describe('socket.io-as-promised', () => {
   it('should serialize rejected error', () => {
     setupTest(() => Promise.reject(new Error('serialized error')), {
       handleError(err) {
-        // eslint-disable-next-line prefer-promise-reject-errors
+         
         return Promise.reject({ name: err.name, message: err.message });
       },
     });
@@ -88,7 +88,7 @@ describe('socket.io-as-promised', () => {
   it('should catch error thrown from handleError', () => {
     setupTest(() => Promise.reject(new Error('serialized error')), {
       handleError(err) {
-        throw { name: err.name, message: err.message }; // eslint-disable-line no-throw-literal
+        throw { name: err.name, message: err.message };  
       },
     });
 
