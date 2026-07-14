@@ -12,6 +12,10 @@ updates:
         patterns:
           - socket.io
           - socket.io-client
+      eslint:
+        patterns:
+          - "eslint"
+          - "@eslint/js"
   - package-ecosystem: github-actions
     directory: /
     schedule:
