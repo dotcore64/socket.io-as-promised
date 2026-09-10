@@ -51,7 +51,7 @@
     "eslint-plugin-unicorn": "^65.0.1",
     "eslint-plugin-yml": "^3.8.1",
     "p-event": "^7.1.0",
-    "prettier": "3.9.5",
+    "prettier": "3.9.6",
     "socket.io": "^4.8.3",
     "socket.io-client": "^4.8.3"
   }
